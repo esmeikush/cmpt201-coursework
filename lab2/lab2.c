@@ -1,0 +1,47 @@
+#define _POSIX_C_SOURCE 200809L
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main(void) {
+  char *line = NULL;
+  size_t n = 0;
+  while (1) {
+    printf("--- Please enter a command:\n");
+
+    ssize_t len = getline(&line, &n, stdin);
+    if (len == -1) {
+      perror("Failed to read line!\n");
+      break;
+    }
+
+    // Remove newline
+    if (len > 0 && line[len - 1] == '\n')
+      line[len - 1] = '\0';
+
+    pid_t cpid = fork();
+
+    if (cpid < 0) {
+      perror("fork failed!\n");
+      continue;
+    } else if (cpid > 0) {
+      int status = 0;
+      if (waitpid(cpid, &status, 0) == -1) {
+        perror("waitpid failed!\n");
+        exit(EXIT_FAILURE);
+      }
+      if (WIFEXITED(status)) {
+        printf("Child exited.\n");
+      }
+    } else {
+      execlp(line, line, (char *)NULL);
+      perror("execution of child process failed!\n");
+      free(line);
+      exit(EXIT_FAILURE);
+    }
+  }
+  free(line);
+  return 0;
+}
