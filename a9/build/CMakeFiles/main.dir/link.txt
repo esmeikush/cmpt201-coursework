@@ -1,1 +1,0 @@
-/usr/bin/clang -g CMakeFiles/main.dir/src/main.c.o CMakeFiles/main.dir/src/alloc.c.o -o main 
