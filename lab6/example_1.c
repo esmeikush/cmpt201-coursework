@@ -33,23 +33,23 @@ void insert_sorted(uint64_t data) {
   new_node->data = data;
   new_node->next = NULL;
 
-  if (head == NULL) {
+  if (head == NULL || data < head->data) {
+    new_node->next = head;
     head = new_node;
-  } else {
-    node_t *curr = head;
-    node_t *prev = NULL;
-
-    bool inserted = false;
-    while (curr != NULL && !inserted) {
-      if (data < curr->data) {
-        prev->next = new_node;
-        new_node->next = curr;
-        inserted = true;
-      }
+    return
+  } 
+  
+    node_t *prev = head;
+    node_t *curr = head->next;
+   
+    while (curr != NULL && data >= curr->data) {
       prev = curr;
       curr = curr->next;
     }
-  }
+
+  prev->next = new_node;
+  new_node->next = curr;
+  
 }
 
 int index_of(uint64_t data) {
