@@ -36,7 +36,7 @@ void insert_sorted(uint64_t data) {
   if (head == NULL || data < head->data) {
     new_node->next = head;
     head = new_node;
-    return
+    return;
   }
 
   node_t *prev = head;
