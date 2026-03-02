@@ -37,18 +37,19 @@ void insert_sorted(uint64_t data) {
     new_node->next = head;
     head = new_node;
     return
-  }
-
-  node_t *prev = head;
-  node_t *curr = head->next;
-
-  while (curr != NULL && data >= curr->data) {
-    prev = curr;
-    curr = curr->next;
-  }
+  } 
+  
+    node_t *prev = head;
+    node_t *curr = head->next;
+   
+    while (curr != NULL && data >= curr->data) {
+      prev = curr;
+      curr = curr->next;
+    }
 
   prev->next = new_node;
   new_node->next = curr;
+  
 }
 
 int index_of(uint64_t data) {
